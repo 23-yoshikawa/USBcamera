@@ -10,8 +10,10 @@ void ImageReceiverNode::image_callback(const sensor_msgs::msg::Image::SharedPtr 
 {
     try
     {
-        cv::Mat frame = cv_bridge::toCvCopy(msg, "bgr8")->image;
-        cv::imshow("Received Image", frame);
+        cv::Mat bgr_frame = cv_bridge::toCvCopy(msg, "bgr8")->image;
+        cv::Mat hsv_frame;
+        cv::cvtColor(bgr_frame, hsv_frame, cv::COLOR_BGR2HSV);
+        cv::imshow("Received HSV Image", hsv_frame);
         cv::waitKey(1);
     }
     catch (cv_bridge::Exception &e)
